@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CARGUE DE INFORMES DE REPARACIÓN</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #00afaa;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .header img {
+            position: absolute;
+            right: 20px;
+            max-height: 50px;
+        }
+        .header h1 {
+            margin: 0;
+            color: white;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            background-color: #00afaa;
+            border-color: #00afaa;
+            color: white;
+            border-radius: 20px; /* Borde redondeado */
+        }
+        .submit-btn:hover {
+            background-color: #008f8f; /* Color más oscuro para hover */
+            border-color: #008f8f;
+        }
+        .submit-btn:focus,
+        .submit-btn:active {
+            background-color: #008f8f !important; /* Color más oscuro para active */
+            border-color: #008f8f !important;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CARGUE INFORMES DE REPARACIÓN</h1>
+        <img src="img/Logo.png" alt="Logo">
+    </div>
+
+    <div class="container my-4">
+        <form id="sharepoint-form" class="mb-4">
+            <div class="mb-3">
+                <label for="contratista" class="form-label">Seleccione una contratista:</label>
+                <select id="contratista" name="contratista" class="form-control" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Unicilindros">Unicilindros</option>
+                    <option value="Otra contratista">Otra contratista</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="contratocontratista" class="form-label">Seleccione numero del contrato:</label>
+                <select id="contratocontratista" name="contratocontratista" class="form-control" required>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="fileInput" class="form-label">Seleccione el archivo:</label>
+                <input type="file" id="fileInput" name="file" class="form-control" accept=".xlsx,.xls,.doc,.docx,.pdf" required>
+            </div>
+            <button type="button" id="submit-btn" class="btn btn-secondary submit-btn" onclick="EnviarArchivo();">Enviar</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#contratista').change(function() {
+                const contratista = $(this).val();
+                const contratocontratista = $('#contratocontratista');
+
+                contratocontratista.empty(); // Limpiar las opciones anteriores
+                contratocontratista.append('<option value="">Seleccione una opción</option>'); // Opción por defecto
+
+                if (contratista === 'Unicilindros') {
+                    contratocontratista.append('<option value="20512020">20512020</option>');
+                    contratocontratista.append('<option value="EC20262022B">EC20262022B</option>');
+                } else if (contratista === 'Otra contratista') {
+                    contratocontratista.append('<option value="Prueba2024">Prueba2024</option>');
+                }
+            });
+        });
+
+        function EnviarArchivo() {
+            const fileInput = $('#fileInput')[0].files[0];
+            const contratista = $('#contratista').val();
+            const contratocontratista = $('#contratocontratista').val();
+
+            if (!contratista || !contratocontratista) {
+                alert('Por favor, selecciona una contratista y un contrato.');
+                return;
+            }
+
+            if (!fileInput) {
+                alert('Por favor, selecciona un archivo.');
+                return;
+            }
+         
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const fileContent = e.target.result.split(',')[1]; // Obtener la parte base64 del resultado
+                
+                const data = {
+                    "file": fileContent,
+                    "filename": fileInput.name,
+                    "contratista": contratista,
+                    "contratocontratista": contratocontratista
+                };
+
+                const apiUrlRegistrar = 'https://prod-210.westeurope.logic.azure.com:443/workflows/81495889d16c43fdb53c8221ff17978a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hfNzZY2E_GOwLigbjvrcqEhEWeZjX0pyG0y_OqVSej4';
+
+                $.ajax({
+                    url: apiUrlRegistrar,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function() {
+                        alert('Archivo enviado correctamente.');
+                    },
+                    error: function(error) {
+                        console.error('Error al enviar el archivo:', error);
+                        alert('Error al enviar el archivo.');
+                    }
+                });
+            };
+
+            reader.readAsDataURL(fileInput); // Leer como Data URL para obtener la base64
+        }
+    </script>
+</body>
+</html>

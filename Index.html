@@ -101,6 +101,7 @@
                 if (contratista === 'Unicilindros') {
                     contratocontratista.append('<option value="20512020">20512020</option>');
                     contratocontratista.append('<option value="EC20262022B">EC20262022B</option>');
+                    contratocontratista.append('<option value="20702018">20702018</option>');
                 } else if (contratista === 'Otra contratista') {
                     contratocontratista.append('<option value="Prueba2024">Prueba2024</option>');
                 }
@@ -183,6 +184,18 @@
 
                 const apiUrlRegistrar = 'https://prod-210.westeurope.logic.azure.com:443/workflows/81495889d16c43fdb53c8221ff17978a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hfNzZY2E_GOwLigbjvrcqEhEWeZjX0pyG0y_OqVSej4';
 
+                // Deshabilitar el botón de enviar y mostrar alerta de espera
+                $('#submit-btn').prop('disabled', true);
+                Swal.fire({
+                    title: 'Por favor, espere...',
+                    text: 'El archivo se está enviando.',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: apiUrlRegistrar,
                     type: 'POST',
@@ -195,6 +208,7 @@
                             text: 'Archivo enviado correctamente.'
                         }).then((result) => {
                             document.getElementById('sharepoint-form').reset(); // Limpiar el formulario
+                            $('#submit-btn').prop('disabled', false); // Habilitar el botón de enviar
                         });
                     },
                     error: function(error) {
@@ -204,6 +218,7 @@
                             title: 'Error',
                             text: 'Error al enviar el archivo.'
                         });
+                        $('#submit-btn').prop('disabled', false); // Habilitar el botón de enviar en caso de error
                     }
                 });
             };

@@ -205,7 +205,7 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Éxito',
-                            text: 'Archivo enviado correctamente.'
+                            text: `Archivo enviado correctamente a la carpeta del contrato ${contratocontratista} de la contratista ${contratista}.`
                         }).then((result) => {
                             document.getElementById('sharepoint-form').reset(); // Limpiar el formulario
                             $('#submit-btn').prop('disabled', false); // Habilitar el botón de enviar

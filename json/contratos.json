@@ -1,0 +1,20 @@
+{
+  "contratistas": [
+    {
+      "nombre": "Unicilindros",
+      "contratos": [
+        "20512020",
+        "EC20262022B",
+        "20702018"
+      ]
+    },
+		{
+			"nombre": "CHM",
+			"contratos": [
+				"2086021C",
+				"20462023",
+				"20662022"
+			]
+		}
+	]
+}

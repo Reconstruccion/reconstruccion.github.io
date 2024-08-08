@@ -1,0 +1,6 @@
+.custom-select {
+    -webkit-appearance: none; /* Oculta la flecha en Chrome, Safari y Opera */
+    -moz-appearance: none; /* Oculta la flecha en Firefox */
+    appearance: none; /* Oculta la flecha en otros navegadores */
+    background: none; /* Opcional: elimina el fondo para mayor personalización */
+}

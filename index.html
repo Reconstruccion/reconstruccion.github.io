@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARGUE DE INFORMES DE REPARACIÓN</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel" src="./components/Header.jsx"></script>
+    <script type="text/babel" src="./components/App.jsx"></script>
+    <script type="text/babel" src="./components/Form/Form.jsx"></script>
+    <script type="text/babel" src="./components/Form/ContratistaSelect.jsx"></script>
+    <script type="text/babel" src="./components/Form/ContratoSelect.jsx"></script>
+    <script type="text/babel" src="./components/Form/ArchivoSelect.jsx"></script>
+    <script type="text/babel" src="./utils/MostrarModal.js"></script>
+
+    <script type="text/babel">
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

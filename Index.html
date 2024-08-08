@@ -79,7 +79,7 @@
             </div>
             <div class="mb-3">
                 <label for="fileInput" class="form-label">Seleccione el archivo:</label>
-                <input type="file" id="fileInput" name="file" class="form-control" accept=".xlsx,.xls,.xlsm,.xlsb,.xltx,.xlt,.doc,.docx,.pdf" onchange="verificarNombreArchivo(this.files[0]);" required>
+                <input type="file" id="fileInput" name="file" class="form-control" accept=".pdf" onchange="verificarNombreArchivo(this.files[0]);" required>
             </div>
             <button type="button" id="submit-btn" class="btn btn-secondary submit-btn" onclick="EnviarArchivo();">Enviar</button>
         </form>
